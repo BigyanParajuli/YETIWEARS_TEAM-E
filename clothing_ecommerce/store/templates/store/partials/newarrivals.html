@@ -1,0 +1,15 @@
+<!-- new_arrivals.html -->
+<section class="new-arrivals">
+    <h2>New Arrivals</h2>
+    <div class="product-grid">
+        {% for product in new_arrivals %}
+        <div class="product-card">
+            <!-- Product card HTML -->
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }}</p>
+            <!-- Add to cart button, etc. -->
+        </div>
+        {% endfor %}
+    </div>
+</section>

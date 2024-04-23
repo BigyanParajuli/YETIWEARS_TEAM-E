@@ -1,0 +1,125 @@
+{% load menu %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>{% block title %}{% endblock %} |YETIWEARS</title>
+    <!--    Tailwind Css -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        nav {
+            width: 100%;
+            background-color: #000000; /* Black background */
+        }
+
+        .menu {
+            display: flex;
+            justify-content: flex-start; 
+            align-items: center; 
+            gap: 1rem; 
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+        }
+
+        .menu a:hover {
+            color: #F5EDDC; 
+            background-color: rgba(255, 255, 255, 0.1); 
+        }
+
+        /* Search bar styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px 10px;
+            background-color: #fff;
+        }
+
+        .search-container input[type="search"] {
+            border: none;
+            outline: none;
+            padding: 5px;
+            width: 200px; 
+        }
+
+        .search-container button {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="py-4 px-6">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="logo">
+                <a href="/" class="text-2xl text-white">YETIWEARS</a>
+            </div>
+            <div class="search">
+                <form method="get" action="/search/">
+                    <div class="search-container">
+                        <input type="search" name="query" placeholder="Search...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <div class="menu flex space-x-4">
+                {% menu %}
+                {% if request.user.is_authenticated %}
+                <a href="{% url 'myaccount' %}" class="py-2 px-4 bg-teal-800 text-white rounded-xl hover:bg-teal-900">My account</a>
+                <a href="{% url 'my_store' %}" class="py-2 px-4 bg-teal-800 text-white rounded-xl hover:bg-teal-900">My store</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="max-w-4xl mx-auto py-4 px-6">
+        {% block content %}
+        {% endblock %}
+    </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-dark py-5">
+        <div class="container">
+            <div class="row text-white">
+                <div class="col-md-4">
+                    <h3 class="mb-4">About</h3>
+                    <p>YetiWears founded in 2024 by Herald College Students</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="mb-4">Menu</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-reset">About</a></li>
+                        <li><a href="#" class="text-reset">Privacy Policy</a></li>
+                        <li><a href="#" class="text-reset">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3 class="mb-4">Follow Us</h3>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RHX0lhxkKnOxMpjYkzg8pdeYqV+QLMu5D/MWXbWdsu5fVmmVkfnvHnrkW+"
+            crossorigin="anonymous"></script>
+</body>
+</html>
