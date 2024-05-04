@@ -140,3 +140,11 @@ GRAPH_MODELS ={
 'all_applications': True,
 'graph_models': True,
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'itsfacelessmen@gmail.com'
+EMAIL_HOST_PASSWORD = 'your_gmail_password'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'your_gmail_address@gmail.com'
