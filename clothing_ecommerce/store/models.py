@@ -46,7 +46,7 @@ class Product(models.Model):
         return self.title
     
     def get_display_price(self):
-        return self.price / 100
+        return self.price 
     
     def save(self, *args, **kwargs):
         if self.image:
