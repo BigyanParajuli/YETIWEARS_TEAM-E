@@ -1,0 +1,11 @@
+{% for product in products %}
+<div>
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    {% if product.promotion %}
+    <p>Discounted Price: {{ product.get_discounted_price }}</p>
+    {% else %}
+    <p>Price: {{ product.price }}</p>
+    {% endif %}
+</div>
+{% endfor %}

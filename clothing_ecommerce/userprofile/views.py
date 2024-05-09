@@ -8,6 +8,8 @@ from .models import Userprofile
 from .forms import SignUpForm  # Import the custom SignUpForm
 from store.forms import ProductForm
 from store.models import Product
+from django.shortcuts import render
+from .models import Product
 
 def vendor_detail(request, pk):
     user = User.objects.get(pk=pk)
@@ -83,3 +85,11 @@ def signup(request):
     else:
         form = SignUpForm()  # Use the custom SignUpForm
     return render(request, 'userprofile/signup.html', {'form': form})
+
+def product_list(request):
+    products = Product.objects.all()
+    context = {'products': products}
+    return render(request, 'store/product_list.html', context)
+
+def my_store(request):
+    products = request.user.products.exclude(status=Product.DELETED)
