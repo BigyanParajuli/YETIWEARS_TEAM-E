@@ -61,6 +61,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'clothing_ecommerce.urls'
 
+Stripe_public_key = 'pk_test_51PEoUk04HuykUfrKyW3PCu4Mbtf5cLd8MBxfLW1ZuT8rZCtjwU4c5KJpCLkMjspk6wN7TD7fZ3IAOPky6XwuplHR00VhJFjDXj'
+Stripe_Secret_key= 'sk_test_51PEoUk04HuykUfrKUP0tvHOyFeqH3PWM3dzOjIV8HHqqdJ6385NEK8LdCalf71uvxZeLEY3JiX7N5xTXzURNAkVO00xNKRGdtP'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
