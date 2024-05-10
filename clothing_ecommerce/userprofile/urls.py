@@ -14,7 +14,8 @@ urlpatterns = [
     path('my-store/delete-product/<int:pk>/', views.delete_product, name='delete_product'),
     path('vendors/<int:pk>/', views.vendor_detail, name='vendor_detail'),
     path('approve-seller/<int:pk>/', views.approve_seller, name='approve_seller'),
-    
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
+    path('change-password/', views.change_password, name='change_password'),
     # Password reset URLs
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),

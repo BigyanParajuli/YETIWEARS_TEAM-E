@@ -1,9 +1,32 @@
 {% extends 'core/base.html' %}
-{% block title %}My account{% endblock %}
+
+{% block title %}My Account{% endblock %}
+
 {% block content %}
-<h1 class="text-2xl">My account</h1>
-<form method="post" action="{% url 'logout' %}">
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-4">My Account</h1>
+
+  <div class="bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-xl font-semibold mb-4">Account Details</h2>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <!-- Add more account details as needed -->
+  </div>
+
+  <div class="mt-8">
+    <h2 class="text-xl font-semibold mb-4">Account Actions</h2>
+    <ul>
+      <li><a href="{% url 'edit_profile' %}" class="text-blue-500 hover:text-blue-700">Edit Profile</a></li>
+      <li><a href="{% url 'change_password' %}" class="text-blue-500 hover:text-blue-700">Change Password</a></li>
+      <!-- Add more account action links as needed -->
+    </ul>
+  </div>
+
+  <form method="post" action="{% url 'logout' %}" class="mt-8">
     {% csrf_token %}
-    <button type="submit" class="mt-6 inline-block py-4 px-8 bg-red-400 text-white">Log out</button>
-</form>
+    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+      Log out
+    </button>
+  </form>
+</div>
 {% endblock %}
