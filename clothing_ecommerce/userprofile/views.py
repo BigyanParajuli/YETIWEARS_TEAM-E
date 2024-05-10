@@ -1,12 +1,13 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from .models import Userprofile
-from .forms import CustomerSignUpForm, SellerSignUpForm
+from .forms import CustomerSignUpForm, SellerSignUpForm, UserProfileForm
 from store.forms import ProductForm
 from store.models import Product
 
@@ -97,6 +98,42 @@ def seller_signup(request):
         form = SellerSignUpForm()
     return render(request, 'userprofile/seller_signup.html', {'form': form})
 
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated.')
+            return redirect('myaccount')
+    else:
+        form = UserProfileForm(instance=request.user)
+    return render(request, 'userprofile/edit_profile.html', {'form': form})
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data['old_password']
+            new_password1 = form.cleaned_data['new_password1']
+            new_password2 = form.cleaned_data['new_password2']
+
+            # Check if the old password is correct
+            if not request.user.check_password(old_password):
+                form.add_error('old_password', 'The old password is incorrect.')
+            # Check if the new passwords match
+            elif new_password1 != new_password2:
+                form.add_error('new_password2', 'The new passwords do not match.')
+            else:
+                user = form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password has been changed.')
+                return redirect('myaccount')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'userprofile/change_password.html', {'form': form})
+
 class CustomLoginView(LoginView):
     template_name = 'userprofile/login.html'
 
@@ -120,3 +157,4 @@ def approve_seller(request, pk):
     userprofile.save()
     messages.success(request, f'{userprofile.user.username} has been approved as a seller.')
     return redirect('admin:userprofile_userprofile_changelist')
+
