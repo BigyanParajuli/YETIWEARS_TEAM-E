@@ -1,11 +1,11 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
-    path('signup/', views.signup, name='signup'),
-    path('login/', auth_views.LoginView.as_view(template_name='userprofile/login.html'), name='login'),
+    path('signup/customer/', views.customer_signup, name='customer_signup'),
+    path('signup/seller/', views.seller_signup, name='seller_signup'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('myaccount/', views.myaccount, name='myaccount'),
     path('my-store/', views.my_store, name='my_store'),
@@ -13,6 +13,7 @@ urlpatterns = [
     path('my-store/edit-product/<int:pk>/', views.edit_product, name='edit_product'),
     path('my-store/delete-product/<int:pk>/', views.delete_product, name='delete_product'),
     path('vendors/<int:pk>/', views.vendor_detail, name='vendor_detail'),
+    path('approve-seller/<int:pk>/', views.approve_seller, name='approve_seller'),
     
     # Password reset URLs
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
