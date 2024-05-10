@@ -93,3 +93,7 @@ def product_list(request):
 
 def my_store(request):
     products = request.user.products.exclude(status=Product.DELETED)
+
+def my_store(request):
+    # Your view logic here
+    return render(request, 'userprofile/my_store.html')
