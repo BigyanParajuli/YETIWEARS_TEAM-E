@@ -85,3 +85,9 @@ def product_detail(request, category_slug, slug):
     product = get_object_or_404(Product, slug=slug, status=Product.ACTIVE)
     cart = Cart(request)  # Create a Cart instance
     return render(request, 'store/product_detail.html', {'product': product, 'cart': cart})
+
+def product_detail(request, category_slug, slug):
+    product = get_object_or_404(Product, slug=slug, status=Product.ACTIVE)
+    similar_products = Product.objects.filter(category=product.category).exclude(id=product.id)[:8]
+    cart = Cart(request)
+    return render(request, 'store/product_detail.html', {'product': product, 'similar_products': similar_products, 'cart': cart})
