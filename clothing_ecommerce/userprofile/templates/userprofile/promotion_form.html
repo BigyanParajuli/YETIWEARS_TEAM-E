@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl">{{ title }}</h1>
+
+<form method="post" class="max-w-sm">
+    {% csrf_token %}
+    <div class="mb-4">
+        <label for="id_product" class="block mb-2">Product:</label>
+        {{ form.product }}
+    </div>
+    <div class="mb-4">
+        <label for="id_discount_percentage" class="block mb-2">Discount Percentage:</label>
+        {{ form.discount_percentage }}
+    </div>
+    <div class="mb-4">
+        <label for="id_start_date" class="block mb-2">Start Date:</label>
+        {{ form.start_date }}
+    </div>
+    <div class="mb-4">
+        <label for="id_end_date" class="block mb-2">End Date:</label>
+        {{ form.end_date }}
+    </div>
+    <button type="submit" class="py-2 px-4 bg-teal-500 text-white">Create Promotion</button>
+</form>
+{% endblock %}

@@ -6,17 +6,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
-from .models import Userprofile
-from .forms import CustomerSignUpForm, SellerSignUpForm, UserProfileForm
+from .models import Userprofile, Promotion
+from .forms import CustomerSignUpForm, SellerSignUpForm, UserProfileForm, PromotionForm
 from store.forms import ProductForm
 from store.models import Product
 
 def vendor_detail(request, pk):
     user = User.objects.get(pk=pk)
     products = user.products.filter(status=Product.ACTIVE)
+    promotions = user.promotions.all()
     return render(request, 'userprofile/vendor_detail.html', {
         'user': user,
         'products': products,
+        'promotions': promotions,
     })
 
 @login_required
@@ -158,3 +160,19 @@ def approve_seller(request, pk):
     messages.success(request, f'{userprofile.user.username} has been approved as a seller.')
     return redirect('admin:userprofile_userprofile_changelist')
 
+@login_required
+def add_promotion(request):
+    if request.method == 'POST':
+        form = PromotionForm(request.POST)
+        if form.is_valid():
+            promotion = form.save(commit=False)
+            promotion.user = request.user
+            promotion.save()
+            messages.success(request, 'The promotion was added!')
+            return redirect('my_store')
+    else:
+        form = PromotionForm()
+    return render(request, 'userprofile/promotion_form.html', {
+        'title': 'Add Promotion',
+        'form': form
+    })

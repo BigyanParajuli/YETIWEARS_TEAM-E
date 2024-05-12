@@ -23,5 +23,15 @@
         </div>
     {% endfor %}
 </div>
-{% endblock %}
 
+<h2 class="mt-6 text-xl">Promotions</h2>
+{% for promotion in user.promotions.all %}
+    <div class="promotion mt-4">
+        <h3>{{ promotion.product.title }}</h3>
+        <p>{{ promotion.discount_percentage }}% off</p>
+        <p>Start date: {{ promotion.start_date }}</p>
+        <p>End date: {{ promotion.end_date }}</p>
+    </div>
+{% endfor %}
+
+{% endblock %}
