@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from store.models import Product
 
 class Userprofile(models.Model):
     user = models.OneToOneField(User, related_name='userprofile', on_delete=models.CASCADE)
@@ -8,3 +9,13 @@ class Userprofile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Promotion(models.Model):
+    user = models.ForeignKey(User, related_name='promotions', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='promotions', on_delete=models.CASCADE)
+    discount_percentage = models.PositiveIntegerField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.product.title} - {self.discount_percentage}% off"
