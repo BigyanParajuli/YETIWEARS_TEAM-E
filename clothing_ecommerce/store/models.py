@@ -46,7 +46,17 @@ class Product(models.Model):
         return self.title
     
     def get_display_price(self):
-        return self.price 
+        return '{:.2f}'.format(self.price)
+
+    def get_display_discounted_price(self):
+        if self.promotions.exists():
+            promotion = self.promotions.first()
+            discounted_price = self.price - (self.price * promotion.discount_percentage / 100)
+            return '{:.2f}'.format(discounted_price)
+        return self.get_display_price()
+
+    def can_delete(self):
+        return self.status not in [Product.DELETED]
     
     def save(self, *args, **kwargs):
         if self.image:
