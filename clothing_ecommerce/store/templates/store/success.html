@@ -1,11 +1,21 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Success{% endblock %}
+{% block title %}Order Confirmed{% endblock %}
 
 {% block content %}
-    <h1 class="mb-6 text-2xl">Success</h1>
+<div class="text-center">
+ <svg class="mx-auto h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+ </svg>
+ 
+ <h1 class="mt-6 text-3xl">Your Order is Confirmed!</h1>
 
-    <p>
-        Thank you for shopping with us!
-    </p>
+ <p class="mt-3"> 
+   We'll send you a shipping confirmation email as soon as your order ships.
+ </p>
+ 
+ <a href="{% url 'frontpage' %}" class="mt-6 inline-block bg-emerald-900 text-white px-4 py-2 rounded hover:bg-cyan-900">
+   Continue Shopping
+ </a>
+</div>
 {% endblock %}

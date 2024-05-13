@@ -29,6 +29,9 @@ def add_to_cart(request, product_id):
     cart.add(product_id)
     return redirect('cart_view')
 
+def success(request):
+    return render(request, 'store/success.html')
+
 def change_quantity(request, product_id):
     action = request.GET.get('action', '')
     if action:
