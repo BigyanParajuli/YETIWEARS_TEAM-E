@@ -32,7 +32,7 @@ class Product(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50)
     description = models.TextField(blank=True)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='uploads/product_images', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/product_images/thumbnails', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -95,5 +95,5 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField(default=1)

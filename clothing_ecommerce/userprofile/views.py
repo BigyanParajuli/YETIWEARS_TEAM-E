@@ -3,13 +3,14 @@ from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from .models import Userprofile, Promotion
 from .forms import CustomerSignUpForm, SellerSignUpForm, UserProfileForm, PromotionForm
 from store.forms import ProductForm
-from store.models import Product
+from store.models import Product, OrderItem, Order
 
 def vendor_detail(request, pk):
     user = User.objects.get(pk=pk)
@@ -24,8 +25,19 @@ def vendor_detail(request, pk):
 @login_required
 def my_store(request):
     products = request.user.products.exclude(status=Product.DELETED)
+    order_items = OrderItem.objects.filter(product__user=request.user)
+
     return render(request, 'userprofile/my_store.html', {
-        'products': products
+        'products': products,
+        'order_items': order_items
+    })
+
+@login_required
+def my_store_order_detail(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+
+    return render(request, 'userprofile/my_store_order_detail.html', {
+        'order': order
     })
 
 @login_required
