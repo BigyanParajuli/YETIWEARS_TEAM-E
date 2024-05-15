@@ -6,6 +6,17 @@
 <div class="container mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold mb-4">My Account</h1>
 
+  <!-- Display messages -->
+  {% if messages %}
+  <div class="mb-4">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} rounded-md px-4 py-2 mb-2">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <div class="bg-white shadow-md rounded-lg p-6">
     <h2 class="text-xl font-semibold mb-4">Account Details</h2>
     <p><strong>Username:</strong> {{ user.username }}</p>
