@@ -112,6 +112,11 @@ def seller_signup(request):
         form = SellerSignUpForm()
     return render(request, 'userprofile/seller_signup.html', {'form': form})
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import UserProfileForm
+
 @login_required
 def edit_profile(request):
     if request.method == 'POST':

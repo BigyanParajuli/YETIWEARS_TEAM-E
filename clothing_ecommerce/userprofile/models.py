@@ -3,13 +3,19 @@ from django.db import models
 from store.models import Product
 from django.utils import timezone
 
+from django.db import models
+from django.contrib.auth.models import User
+
 class Userprofile(models.Model):
     user = models.OneToOneField(User, related_name='userprofile', on_delete=models.CASCADE)
     is_vendor = models.BooleanField(default=False)
     is_vendor_approved = models.BooleanField(default=False)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
+
 
 class Promotion(models.Model):
     user = models.ForeignKey(User, related_name='promotions', on_delete=models.CASCADE)
