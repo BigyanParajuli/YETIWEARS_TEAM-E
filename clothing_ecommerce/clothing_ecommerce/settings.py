@@ -36,6 +36,7 @@ LOGOUT_REDIRECT_URL = 'frontpage'
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -152,3 +153,54 @@ EMAIL_HOST_USER = 'itsfacelessmen@gmail.com'
 EMAIL_HOST_PASSWORD = 'your_gmail_password'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'your_gmail_address@gmail.com'
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will show up in browser tab)
+    "site_title": "YetiWears Admin",
+
+    # Title on the login screen (19 chars max)
+    "site_header": "YETIWEARS",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to the Clothing Ecommerce admin",
+
+    # Copyright on the footer
+    "copyright": "YetiWears Clothing Ecommerce",
+
+    # The brand name of your site
+    "brand_colour": "navbar-info",
+
+    # An optional favicon
+    "site_logo": "yeti.png",
+
+    # Welcome image
+    "welcome_image": "yeti.png",
+
+    # Icons for side menu
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "store.Category": "fas fa-list",
+        "store.Product": "fas fa-shopping-bag",  
+        "store.Order": "fas fa-cash-register",
+        "store.OrderItem": "fas fa-list-alt",
+    },
+
+    # Custom links to append to app_list
+    "custom_links": {
+        "store": [{
+            "name": "Make Messages",
+            "url": "make_messages",
+            "icon": "fas fa-comments",
+        }]
+    },
+
+    # Custom icons for model admins
+    "icons": {
+        "store.Category": "fas fa-sitemap",
+        "store.Product": "fas fa-box",
+        "store.Order": "fas fa-shopping-cart",
+        "store.OrderItem": "fas fa-list-ul",
+    },
+}
