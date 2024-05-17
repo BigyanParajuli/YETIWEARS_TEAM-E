@@ -32,9 +32,9 @@ class Product(models.Model):
     title = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50)
     description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.IntegerField()
     image = models.ImageField(upload_to='uploads/product_images', blank=True, null=True)
-    thumbnail = models.ImageField(upload_to='uploads/product_images/thumbnails', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='uploads/product_images/thumbnail', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=ACTIVE)
@@ -46,23 +46,20 @@ class Product(models.Model):
         return self.title
     
     def get_display_price(self):
-        return '{:.2f}'.format(self.price)
-
-    def get_display_discounted_price(self):
-        if self.promotions.exists():
-            promotion = self.promotions.first()
-            discounted_price = self.price - (self.price * promotion.discount_percentage / 100)
-            return '{:.2f}'.format(discounted_price)
-        return self.get_display_price()
-
-    def can_delete(self):
-        return self.status not in [Product.DELETED]
+        return self.price / 100
     
-    def save(self, *args, **kwargs):
-        if self.image:
-            self.thumbnail = self.make_thumbnail(self.image)
-        super().save(*args, **kwargs)
+    def get_thumbnail(self):
+        if self.thumbnail:
+            return self.thumbnail.url
+        else:
+            if self.image:
+                self.thumbnail = self.make_thumbnail(self.image)
+                self.save()
 
+                return self.thumbnail.url
+            else:
+                return 'https://via.placeholder.com/240x240x.jpg'
+    
     def make_thumbnail(self, image, size=(300, 300)):
         img = Image.open(image)
         img.convert('RGB')
@@ -70,15 +67,10 @@ class Product(models.Model):
 
         thumb_io = BytesIO()
         img.save(thumb_io, 'JPEG', quality=85)
-        thumbnail = File(thumb_io, name=image.name)
+        name = image.name.replace('uploads/product_images/', '')
+        thumbnail = File(thumb_io, name=name)
 
         return thumbnail
-
-    def get_thumbnail(self):
-        if self.thumbnail:
-            return self.thumbnail.url
-        else:
-            return 'https://via.placeholder.com/240x240x.jpg'
         
 class Order(models.Model):
     first_name = models.CharField(max_length=255)
