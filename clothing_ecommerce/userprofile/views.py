@@ -5,7 +5,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from .models import Userprofile, Promotion
 from .forms import CustomerSignUpForm, SellerSignUpForm, UserProfileForm, PromotionForm
@@ -26,10 +25,19 @@ def vendor_detail(request, pk):
 def my_store(request):
     products = request.user.products.exclude(status=Product.DELETED)
     order_items = OrderItem.objects.filter(product__user=request.user)
+    
+    # Create a list of products with their promotions
+    product_list = []
+    for product in products:
+        promotions = Promotion.objects.filter(product=product)
+        product_list.append({
+            'product': product,
+            'promotions': promotions,
+        })
 
     return render(request, 'userprofile/my_store.html', {
-        'products': products,
-        'order_items': order_items
+        'product_list': product_list,
+        'order_items': order_items,
     })
 
 @login_required
@@ -111,11 +119,6 @@ def seller_signup(request):
     else:
         form = SellerSignUpForm()
     return render(request, 'userprofile/seller_signup.html', {'form': form})
-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .forms import UserProfileForm
 
 @login_required
 def edit_profile(request):

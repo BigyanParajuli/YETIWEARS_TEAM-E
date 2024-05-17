@@ -1,28 +1,65 @@
-{% extends 'core/base.html' %}
-
-{% block title %}{{ title }}{% endblock %}
-
-{% block content %}
-<h1 class="text-2xl">{{ title }}</h1>
-
-<form method="post" class="max-w-sm">
-    {% csrf_token %}
-    <div class="mb-4">
-        <label for="id_product" class="block mb-2">Product:</label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <style>
+    .form-container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .form-control {
+      display: block;
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>{{ title }}</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_product" class="form-label">Product:</label>
         {{ form.product }}
-    </div>
-    <div class="mb-4">
-        <label for="id_discount_percentage" class="block mb-2">Discount Percentage:</label>
+      </div>
+      <div class="form-group">
+        <label for="id_discount_percentage" class="form-label">Discount Percentage:</label>
         {{ form.discount_percentage }}
-    </div>
-    <div class="mb-4">
-        <label for="id_start_date" class="block mb-2">Start Date:</label>
+      </div>
+      <div class="form-group">
+        <label for="id_start_date" class="form-label">Start Date:</label>
         {{ form.start_date }}
-    </div>
-    <div class="mb-4">
-        <label for="id_end_date" class="block mb-2">End Date:</label>
+      </div>
+      <div class="form-group">
+        <label for="id_end_date" class="form-label">End Date:</label>
         {{ form.end_date }}
-    </div>
-    <button type="submit" class="py-2 px-4 bg-teal-500 text-white">Create Promotion</button>
-</form>
-{% endblock %}
+      </div>
+      <button type="submit" class="btn">Create Promotion</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,10 +1,9 @@
 import stripe
 import json
-
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import JsonResponse    # Add this import
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .cart import Cart
 from .forms import OrderForm
@@ -13,12 +12,12 @@ from .models import Category, Product, Order, OrderItem
 def frontpage(request):
     latest_products = Product.objects.filter(status=Product.ACTIVE).order_by('-created_at')[:3]
     products = Product.objects.filter(status=Product.ACTIVE)[3:]
-    cart = Cart(request)  # Create a Cart instance
+    cart = Cart(request)
 
     return render(request, 'core/frontpage.html', {
         'latest_products': latest_products,
         'products': products,
-        'cart': cart,  # Pass the cart instance to the template
+        'cart': cart,
     })
 
 def about(request):
@@ -62,24 +61,22 @@ def checkout(request):
         data = json.loads(request.body)
         form = OrderForm(request.POST)
 
-        total_price = 0
-        items = []
+        total_price = int(cart.get_total_cost() + 100)  # Round the total cost to the nearest integer
 
+        items = []
         for item in cart:
             product = item['product']
-            total_price += product.price * int(item['quantity'])
-
             items.append({
                 'price_data': {
-                    'currency': 'usd',
+                    'currency': 'npr',
                     'product_data': {
                         'name': product.title,
                     },
-                    'unit_amount': product.price
+                    'unit_amount': int(product.price * 100),  # Convert the price to an integer
                 },
                 'quantity': item['quantity']
             })
-        
+
         stripe.api_key = settings.STRIPE_SECRET_KEY
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -96,10 +93,10 @@ def checkout(request):
             address=data['address'],
             zipcode=data['zipcode'],
             city=data['city'],
-            created_by = request.user,
-            is_paid = True,
-            payment_intent = payment_intent,
-            paid_amount = total_price
+            created_by=request.user,
+            is_paid=True,
+            payment_intent=payment_intent,
+            paid_amount=total_price
         )
 
         for item in cart:
@@ -138,16 +135,6 @@ def category_detail(request, slug):
         'category': category,
         'products': products
     })
-
-def product_detail(request, category_slug, slug):
-    product = get_object_or_404(Product, slug=slug, status=Product.ACTIVE)
-
-    return render(request, 'store/product_detail.html', {
-        'product': product
-    })
-
-
-
 
 def product_detail(request, category_slug, slug):
     product = get_object_or_404(Product, slug=slug, status=Product.ACTIVE)
