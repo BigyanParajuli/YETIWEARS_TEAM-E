@@ -1,12 +1,9 @@
 {% extends 'core/base.html' %}
-
 {% block title %}Cart{% endblock %}
-
 {% block content %}
 <div class="bg-white">
     <div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-semibold text-gray-900 mt-8 mb-4">My Bag ({{ cart|length }} items)</h1>
-
+        <h1 class="text-3xl font-semibold text-gray-900 mt-8 mb-4">My Cart ({{ cart|length }} items)</h1>
         {% if cart|length %}
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
@@ -25,7 +22,11 @@
                             </div>
                             <p class="ml-4 text-gray-700">Price: NPR {{ item.product.price }}</p>
                             <p class="ml-4 text-gray-700">Total: NPR {{ item.total_price }}</p>
-                            <a href="{% url 'remove_from_cart' item.product.id %}" class="ml-4 text-red-600 hover:text-red-800">Remove</a>
+                            <!-- Bug: The "Remove" word was being truncated due to the limited width -->
+                            <!-- <a href="{% url 'remove_from_cart' item.product.id %}" class="ml-4 text-red-600 hover:text-red-800">Remove</a> -->
+
+                            <!-- Bug Fix: Added the remove-link class to handle text truncation with ellipsis -->
+                            <a href="{% url 'remove_from_cart' item.product.id %}" class="ml-4 text-red-600 hover:text-red-800 remove-link">Remove</a>
                         </div>
                     </div>
                 </div>

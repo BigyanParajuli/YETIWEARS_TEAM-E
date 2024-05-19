@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.views import LoginView
 from django.utils.text import slugify
+from django.urls import reverse
 from .models import Userprofile, Promotion
 from .forms import CustomerSignUpForm, SellerSignUpForm, UserProfileForm, PromotionForm
 from store.forms import ProductForm
@@ -162,7 +163,9 @@ class CustomLoginView(LoginView):
     def form_valid(self, form):
         response = super().form_valid(form)
         user = self.request.user
-        if user.userprofile.is_vendor:
+        if user.is_superuser:
+            return redirect(reverse('admin:index'))
+        elif user.userprofile.is_vendor:
             if user.userprofile.is_vendor_approved:
                 messages.success(self.request, 'Welcome, seller!')
                 return redirect('my_store')

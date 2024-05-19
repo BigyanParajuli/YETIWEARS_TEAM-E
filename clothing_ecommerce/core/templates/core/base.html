@@ -61,7 +61,8 @@
         }
     </style>
 </head>
-<body>
+<!-- Fix: Set the body as a flex container with column direction and minimum height to fill the viewport -->
+<body style="display: flex; flex-direction: column; min-height: 100vh;">
     <nav class="py-4 px-6">
         <div class="container mx-auto flex items-center justify-between">
             <div class="logo">
@@ -96,7 +97,8 @@
             </div>
         </div>
     </nav>
-    <div class="max-w-4xl mx-auto py-4 px-6">
+    <!-- Fix: Allow the main content container to grow and fill the remaining space -->
+    <div class="max-w-4xl mx-auto py-4 px-6" style="flex: 1;">
         {% block content %}
         {% if request.user.is_authenticated %}
             <h1 class="text-2xl">My account</h1>
@@ -111,8 +113,8 @@
     </div>
     {% block scripts %}
         {% endblock %}
-    <!-- Footer -->
-    <footer class="bg-dark py-5">
+    <!-- Fix: Push the footer to the bottom when there is enough content -->
+    <footer class="bg-dark py-5" style="margin-top: auto;">
         <div class="container">
             <div class="row text-white">
                 <div class="col-md-4">
