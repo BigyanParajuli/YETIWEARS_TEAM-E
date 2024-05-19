@@ -170,11 +170,7 @@ JAZZMIN_SETTINGS = {
     # The brand name of your site
     "brand_colour": "navbar-info",
 
-    # An optional favicon
-    "site_logo": "yeti.png",
-
-    # Welcome image
-    "welcome_image": "yeti.png",
+    "site_logo": None,
 
     # Icons for side menu
     "icons": {
